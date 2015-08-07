@@ -153,7 +153,6 @@ public class Deque<Item> implements Iterable<Item>
         Deque<Integer> D = new Deque<Integer>();
         D.addLast(1);
         D.addLast(2);
-		D.addLast(3);
         D.removeLast();
         D.addLast(3);
         D.addFirst(0);
