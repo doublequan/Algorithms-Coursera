@@ -5,12 +5,32 @@
  *  Last edited: 20150812
  *  Point.java, the first part of week2's programming assignment
  ****************************************************************************/
+import java.util.Comparator;
 
-public class Point implements Comparable<Point> {
+
+public class Point implements Comparable<Point> 
+{
     private int x;
     private int y;
     
-//    public final Comparator<Point> SLOPE_ORDER;        // compare points by slope to this point
+    /**
+     * compare points by slope to this point
+     * @param that: The Point is going to be compared  
+     * @return -1 if this this point is smaller; 1 bigger; 0 equal
+     */
+    public static final Comparator<Point> SLOPE_ORDER = new Comparator<Point>()
+    {          
+        public int compare(Point p1, Point p2) 
+        {  
+            if (slopeTo(p1) > slopeTo(p2))
+                return 1;
+            else if (slopeTo(p1) < slopeTo(p2))
+                return -1;
+            else if (slopeTo(p1) == slopeTo(p2))
+                return 0;
+            
+        }
+    };
 
 //    public Point(int x, int y)                         // construct the point (x, y)
 
@@ -23,15 +43,16 @@ public class Point implements Comparable<Point> {
      * Compare points by their y-coordinates, breaking ties by their x-coordinates. 
      * Formally, the invoking point (x0, y0) is less than the argument point (x1, y1) if and only if either y0 < y1 or if y0 = y1 and x0 < x1.
      * @param that: The Point is going to be compared  
-     * @return true if this this point is smaller; false otherwise
+     * @return -1 if this this point is smaller; 1 bigger; 0 equal
      */
     public int compareTo(Point that)
     {
-        if (y < that.y)
+        if (y < that.y || (y == that.y && x < that.x))
+            return -1;
+        else if (y == that.y && x == that.x)
+            return 0;
+        else 
             return 1;
-        if (y == that.y && x < that.x)
-            return 1;
-        return 0;
     }
     
     /**
@@ -51,16 +72,17 @@ public class Point implements Comparable<Point> {
                 return Double.NEGATIVE_INFINITY;
             return Double.POSITIVE_INFINITY;
         }
-        if (dy == 0)
-            return 0;
-        return dy/dx;
+        else if (dy == 0)
+            return +0;
+        else 
+            return dy/dx;
     }
         
         
     public static void main(String[] args)   // unit testing
     {
-        double a = 1.0;
-        StdOut.println(a/-0.0);
+        int a = 1;
+        StdOut.println(a*1.0/-3);
        
     }
 }
