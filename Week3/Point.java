@@ -2,7 +2,7 @@
  *  the programming assignment of Algorithms, Part I 
  *  Week3
  *  author: Bill Quan  
- *  Last edited: 20150812
+ *  Last edited: 20150820
  *  Point.java, the first part of week2's programming assignment
  ****************************************************************************/
 import java.util.Comparator;
@@ -18,7 +18,7 @@ public class Point implements Comparable<Point>
      * @param that: The Point is going to be compared  
      * @return -1 if this this point is smaller; 1 bigger; 0 equal
      */
-    public static final Comparator<Point> SLOPE_ORDER = new Comparator<Point>()
+    public final Comparator<Point> SLOPE_ORDER = new Comparator<Point>()
     {          
         public int compare(Point p1, Point p2) 
         {  
@@ -26,17 +26,51 @@ public class Point implements Comparable<Point>
                 return 1;
             else if (slopeTo(p1) < slopeTo(p2))
                 return -1;
-            else if (slopeTo(p1) == slopeTo(p2))
+            else 
                 return 0;
             
         }
     };
+    
+    /**
+     * compare points by slope to this point
+     * @param that: The Point is going to be compared  
+     * @return -1 if this this point is smaller; 1 bigger; 0 equal
+     */
+    public final Comparator<Point> COMPARE_ORDER = new Comparator<Point>()
+    {          
+        public int compare(Point p1, Point p2) 
+        {
+            return p1.compareTo(p2);
+        }
+    };
+    
+    
 
-//    public Point(int x, int y)                         // construct the point (x, y)
+    // create the point (x, y)
+    public Point(int x, int y) {
+        /* DO NOT MODIFY */
+        this.x = x;
+        this.y = y;
+    }
 
-//    public   void draw()                               // draw this point
-//    public   void drawTo(Point that)                   // draw the line segment from this point to that point
-//    public String toString()                           // string representation
+    // plot this point to standard drawing
+    public void draw() {
+        /* DO NOT MODIFY */
+        StdDraw.point(x, y);
+    }
+    
+    // draw line between this point and that point to standard drawing
+    public void drawTo(Point that) {
+        /* DO NOT MODIFY */
+        StdDraw.line(this.x, this.y, that.x, that.y);
+    }
+    
+    // return string representation of this point
+    public String toString() {
+        /* DO NOT MODIFY */
+        return "(" + x + ", " + y + ")";
+    }
 
     /**
      * Is this point lexicographically smaller than that point?

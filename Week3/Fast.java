@@ -3,10 +3,11 @@
  *  Week3
  *  author: Bill Quan  
  *  Last edited: 20150820
- *  Brute.java, the second part of week3's programming assignment
+ *  Fast.java, the third part of week3's programming assignment
  ****************************************************************************/
+import java.util.Arrays;
 
-public class Brute {
+public class Fast {
     public static void main(String[] args) {
 
         // rescale coordinates and turn on animation mode
@@ -30,6 +31,59 @@ public class Brute {
             pointsSet[i].draw();
         }
         
+        Arrays.sort(pointsSet, 1, N, pointsSet[0].SLOPE_ORDER);   //sort pointsSet from pointsSet[1] to pointsSet[N-1] according to pointsSet[0].SLOPE_ORDER
+
+        
+        
+        
+        int head = 1;
+        int tail = 1;
+        for (int i = 2; i < N; i++) 
+        {
+            if (pointsSet[0].slopeTo(pointsSet[i]) == pointsSet[0].slopeTo(pointsSet[head]))    
+            {
+                tail = i;
+            }
+            else
+            {
+                if (tail - head >= 2)
+                {
+                    //do print and draw with the currect head and tail
+                    StdOut.print(pointsSet[0].toString() + " -> ");
+                    for (int j = head; j < tail; j++)
+                    {
+                        StdOut.print(pointsSet[j].toString() + " -> ");
+                    }
+                    StdOut.print(pointsSet[tail].toString() + "\n");
+                                                        
+                    Arrays.sort(pointsSet, head, tail+1, pointsSet[0].COMPARE_ORDER);
+                    
+                    if (pointsSet[0].compareTo(pointsSet[head]) == -1)
+                        pointsSet[0].drawTo(pointsSet[tail]);
+                    else if (pointsSet[0].compareTo(pointsSet[tail]) == 1)
+                        pointsSet[0].drawTo(pointsSet[head]);
+                    else
+                        pointsSet[head].drawTo(pointsSet[tail]);
+                    
+                }
+                
+                head = i;
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            StdOut.println(pointsSet[0].slopeTo(pointsSet[i]));
+        }
+        
+        
+        
+        /**
         for (int i = 0; i < N; i++)
         {
             for (int j = i + 1; j < N; j++)
@@ -74,7 +128,7 @@ public class Brute {
             }
         
         }
-  
+        **/
 
         // display to screen all at once
         StdDraw.show(0);
