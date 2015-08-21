@@ -31,57 +31,81 @@ public class Fast {
             pointsSet[i].draw();
         }
         
-        Arrays.sort(pointsSet, 1, N, pointsSet[0].SLOPE_ORDER);   //sort pointsSet from pointsSet[1] to pointsSet[N-1] according to pointsSet[0].SLOPE_ORDER
-
         
         
-        
-        int head = 1;
-        int tail = 1;
-        for (int i = 2; i < N; i++) 
+        for (int key = 0; key < N; key++)
         {
-            if (pointsSet[0].slopeTo(pointsSet[i]) == pointsSet[0].slopeTo(pointsSet[head]))    
+        
+            Point[] pointsSetCopy = pointsSet.clone();
+            
+            //switch pointsSetCopy[key] with pointsSetCopy[0]
+            Point temp = pointsSetCopy[0];
+            pointsSetCopy[0] = pointsSetCopy[key];
+            pointsSetCopy[key] = temp;
+           
+            
+            Arrays.sort(pointsSetCopy, 1, N, pointsSetCopy[0].SLOPE_ORDER);   //sort pointsSetCopy from pointsSetCopy[1] to pointsSetCopy[N-1] according to pointsSetCopy[0].SLOPE_ORDER
+            
+            
+            int head = 1;
+            int tail = 1;
+            for (int i = 2; i < N; i++) 
             {
-                tail = i;
-            }
-            else
-            {
-                if (tail - head >= 2)
+                if (pointsSetCopy[0].slopeTo(pointsSetCopy[i]) == pointsSetCopy[0].slopeTo(pointsSetCopy[head]) && i != N-1)    
                 {
-                    //do print and draw with the currect head and tail
-                    StdOut.print(pointsSet[0].toString() + " -> ");
-                    for (int j = head; j < tail; j++)
+                    tail = i;
+                }
+                else
+                {
+                    if (pointsSetCopy[0].slopeTo(pointsSetCopy[i]) == pointsSetCopy[0].slopeTo(pointsSetCopy[head]))
+                        tail = i;
+                    if (tail - head >= 2)
                     {
-                        StdOut.print(pointsSet[j].toString() + " -> ");
+                        boolean flag = true;
+                        //try to solve repeated segments problem
+                        for (int j = head; j < tail + 1; j++)
+                        {
+                            for (int k = 0; k < key; k++)
+                            {
+                                if (pointsSetCopy[j].compareTo(pointsSet[k]) == 0)
+                                {
+                                    flag = false;
+                                }
+                            }
+                            
+                        }
+                        if (flag)
+                        {
+                            
+                        
+                            //do print and draw with the currect head and tail
+                            StdOut.print(pointsSetCopy[0].toString() + " -> ");
+                            for (int j = head; j < tail; j++)
+                            {
+                                StdOut.print(pointsSetCopy[j].toString() + " -> ");
+                            }
+                            StdOut.print(pointsSetCopy[tail].toString() + "\n");
+                            
+                            Arrays.sort(pointsSetCopy, head, tail+1, pointsSetCopy[0].COMPARE_ORDER);
+                            
+                            if (pointsSetCopy[0].compareTo(pointsSetCopy[head]) == -1)
+                                pointsSetCopy[0].drawTo(pointsSetCopy[tail]);
+                            else if (pointsSetCopy[0].compareTo(pointsSetCopy[tail]) == 1)
+                                pointsSetCopy[0].drawTo(pointsSetCopy[head]);
+                            else
+                                pointsSetCopy[head].drawTo(pointsSetCopy[tail]);
+                        }
+                        
                     }
-                    StdOut.print(pointsSet[tail].toString() + "\n");
-                                                        
-                    Arrays.sort(pointsSet, head, tail+1, pointsSet[0].COMPARE_ORDER);
                     
-                    if (pointsSet[0].compareTo(pointsSet[head]) == -1)
-                        pointsSet[0].drawTo(pointsSet[tail]);
-                    else if (pointsSet[0].compareTo(pointsSet[tail]) == 1)
-                        pointsSet[0].drawTo(pointsSet[head]);
-                    else
-                        pointsSet[head].drawTo(pointsSet[tail]);
-                    
+                    head = i;
                 }
                 
-                head = i;
+                
+                
             }
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            StdOut.println(pointsSet[0].slopeTo(pointsSet[i]));
+        
         }
-        
-        
         
         /**
         for (int i = 0; i < N; i++)
