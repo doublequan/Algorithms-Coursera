@@ -3,7 +3,7 @@
  *  Week3
  *  author: Bill Quan  
  *  Last edited: 20150820
- *  Point.java, the first part of week2's programming assignment
+ *  Point.java, the first part of week3's programming assignment
  ****************************************************************************/
 import java.util.Comparator;
 
