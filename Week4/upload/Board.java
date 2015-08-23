@@ -6,7 +6,8 @@
  *  Board.java, the first part of week4's programming assignment
  ****************************************************************************/
 import java.lang.Math;
-
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.Stack;
 
 public class Board implements Comparable<Board>{
     

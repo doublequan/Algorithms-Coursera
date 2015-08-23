@@ -5,7 +5,10 @@
  *  Last edited: 20150823
  *  Solver.java, the second part of week4's programming assignment
  ****************************************************************************/
-
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.Stack;
 
 public class Solver 
 {
