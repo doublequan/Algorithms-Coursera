@@ -19,32 +19,34 @@ public class Point implements Comparable<Point>
      * @param that: The Point is going to be compared  
      * @return -1 if this this point is smaller; 1 bigger; 0 equal
      */
-    public final Comparator<Point> SLOPE_ORDER = new Comparator<Point>()
-    {          
-        public int compare(Point p1, Point p2) 
-        {  
+    public final Comparator<Point> SLOPE_ORDER = new PointCmp();
+    private class PointCmp implements Comparator<Point> 
+    {  
+        @Override  
+        public int compare(Point p1, Point p2) {  
+            // TODO Auto-generated method stub  
             if (slopeTo(p1) > slopeTo(p2))
                 return 1;
             else if (slopeTo(p1) < slopeTo(p2))
                 return -1;
             else 
                 return 0;
-            
-        }
-    };
+        }  
+  
+    }
     
-    /**
-     * compare points by slope to this point
-     * @param that: The Point is going to be compared  
-     * @return -1 if this this point is smaller; 1 bigger; 0 equal
-     */
-    public final Comparator<Point> COMPARE_ORDER = new Comparator<Point>()
-    {          
-        public int compare(Point p1, Point p2) 
-        {
-            return p1.compareTo(p2);
-        }
-    };
+//    /**
+//     * compare points by slope to this point
+//     * @param that: The Point is going to be compared  
+//     * @return -1 if this this point is smaller; 1 bigger; 0 equal
+//     */
+//    public final Comparator<Point> COMPARE_ORDER = new Comparator<Point>()
+//    {          
+//        public int compare(Point p1, Point p2) 
+//        {
+//            return p1.compareTo(p2);
+//        }
+//    };
     
     
 

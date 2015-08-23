@@ -8,12 +8,12 @@
 import java.lang.Math;
 
 
-public class Board implements Comparable<Board>{
+public class Board{
     
     private int[][] grid;                //used to store the blocks
     private int dimension;
-    private int moves;
-    private Board previousBoard;
+//    private int moves;
+//    private Board previousBoard;
     
     /**
       * construct a board from an N-by-N array of blocks
@@ -37,8 +37,6 @@ public class Board implements Comparable<Board>{
                 this.grid[j][k] = blocks[j][k];
             }
         }
-        this.moves = 0;
-        this.previousBoard = null;
     }
     
     
@@ -238,38 +236,38 @@ public class Board implements Comparable<Board>{
         return s.toString();
     }
     
-    public int priority()
-    {
-        return this.manhattan() + this.moves;
-    }
-    
-    public Board previousBoard()
-    {
-        return this.previousBoard;
-    }
-    
-    public void setPreviousBoard(Board b)
-    {
-        this.previousBoard = b;
-    }
-    
-    public int getMoves()
-    {
-        return this.moves;
-    }
-    
-    public void setMoved(int m)
-    {
-        this.moves = m;
-    }
-    public int compareTo(Board other)  
-    {  
-        if (this.priority() < other.priority()) 
-            return - 1 ;  
-        if (this.priority() > other.priority())  
-            return 1 ;  
-        return 0 ;  
-    }
+//    public int priority()
+//    {
+//        return this.manhattan() + this.moves;
+//    }
+//    
+//    public Board previousBoard()
+//    {
+//        return this.previousBoard;
+//    }
+//    
+//    public void setPreviousBoard(Board b)
+//    {
+//        this.previousBoard = b;
+//    }
+//    
+//    public int getMoves()
+//    {
+//        return this.moves;
+//    }
+//    
+//    public void setMoved(int m)
+//    {
+//        this.moves = m;
+//    }
+//    public int compareTo(Board other)  
+//    {  
+//        if (this.priority() < other.priority()) 
+//            return - 1 ;  
+//        if (this.priority() > other.priority())  
+//            return 1 ;  
+//        return 0 ;  
+//    }
 
     public static void main(String[] args) // unit tests (not graded)
     {

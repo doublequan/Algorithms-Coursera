@@ -90,14 +90,24 @@ public class Fast {
                             }
                             StdOut.print(pointsSetCopy[tail].toString() + "\n");
                             
-                            Arrays.sort(pointsSetCopy, head, tail+1, pointsSetCopy[0].COMPARE_ORDER);
                             
-                            if (pointsSetCopy[0].compareTo(pointsSetCopy[head]) == -1)
+                          //Arrays.sort(pointsSetCopy, head, tail+1, pointsSetCopy[0].COMPARE_ORDER);
+                            Point PointMax = pointsSetCopy[tail];
+                            Point PointMin = pointsSetCopy[head];
+                            for (int k = head; k < tail + 1; k++)
+                            {
+                                if (pointsSetCopy[k].compareTo(PointMin) == -1)
+                                    PointMin = pointsSetCopy[k];
+                                if (pointsSetCopy[k].compareTo(PointMax) == 1)
+                                    PointMax = pointsSetCopy[k];
+                            }
+                            
+                            if (pointsSetCopy[0].compareTo(PointMin) == -1)
                                 pointsSetCopy[0].drawTo(pointsSetCopy[tail]);
-                            else if (pointsSetCopy[0].compareTo(pointsSetCopy[tail]) == 1)
+                            else if (pointsSetCopy[0].compareTo(PointMax) == 1)
                                 pointsSetCopy[0].drawTo(pointsSetCopy[head]);
                             else
-                                pointsSetCopy[head].drawTo(pointsSetCopy[tail]);
+                                PointMax.drawTo(PointMin);
                         }
                         
                     }

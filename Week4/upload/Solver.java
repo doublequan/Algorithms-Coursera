@@ -14,7 +14,38 @@ public class Solver
 {
     private boolean isSolvable;
     private int moves;
-    private Board goalBoard;
+    private SearchNode goal;
+    private class SearchNode implements Comparable<SearchNode>
+    {
+        public Board board;
+        public int moves;
+        public SearchNode previousSearchNode;
+        
+        public int priority()
+        {
+            return this.board.manhattan() + this.moves;
+        }
+        
+        public SearchNode(Board b, int m, SearchNode pSN)
+        {
+            this.board = b;
+            this.moves = m;
+            this.previousSearchNode = pSN;
+        }
+        public int compareTo(SearchNode other)  
+        {  
+            if (this.priority() < other.priority()) 
+                return - 1 ;  
+            if (this.priority() > other.priority())  
+                return 1 ;  
+            return 0 ;  
+        }
+    }
+    
+    
+    
+    
+    
     
     /**
      * find a solution to the initial board (using the A* algorithm)
@@ -22,41 +53,37 @@ public class Solver
      */
     public Solver(Board initial)
     {
-        MinPQ<Board> pq = new MinPQ<Board>();
-        MinPQ<Board> pqTwin = new MinPQ<Board>();
-        pq.insert(initial);
-        pqTwin.insert(initial.twin());
-        Board b;
-        Board bTwin;
-        while (!pq.min().isGoal() && !pqTwin.min().isGoal())
+        MinPQ<SearchNode> pq = new MinPQ<SearchNode>();
+        MinPQ<SearchNode> pqTwin = new MinPQ<SearchNode>();
+        pq.insert(new SearchNode(initial, 0, null));
+        pqTwin.insert(new SearchNode(initial.twin(), 0, null));
+        SearchNode b;
+        SearchNode bTwin;
+        while (!pq.min().board.isGoal() && !pqTwin.min().board.isGoal())
         {
             b = pq.delMin();
             bTwin = pqTwin.delMin();
-            for (Board i : b.neighbors())
+            for (Board i : b.board.neighbors())
             {
-                i.setMoved(b.getMoves() + 1);
-                i.setPreviousBoard(b);
-                pq.insert(i);
+                pq.insert(new SearchNode(i, b.moves + 1, b));
             }
-            for (Board j : bTwin.neighbors())
+            for (Board j : bTwin.board.neighbors())
             {
-                j.setMoved(bTwin.getMoves() + 1);
-                j.setPreviousBoard(bTwin);
-                pqTwin.insert(j);
+                pqTwin.insert(new SearchNode(j, bTwin.moves + 1, bTwin));
             }
         }
-        if(pq.min().isGoal())
+        if(pq.min().board.isGoal())
         {
             this.isSolvable = true;
             b = pq.min();
-            this.moves = b.getMoves();
-            goalBoard = b;
+            this.moves = b.moves;
+            goal = b;
         }
-        else if(pqTwin.min().isGoal())
+        else if(pqTwin.min().board.isGoal())
         {
             this.isSolvable = false;
             this.moves = -1;
-            goalBoard = null;
+            goal = null;
             
         }
             
@@ -89,14 +116,14 @@ public class Solver
      */
     public Iterable<Board> solution()
     {
-        if(goalBoard == null) return null;
+        if(goal == null) return null;
         Stack<Board> stack = new Stack<Board>();
-        stack.push(goalBoard);
-        Board b = goalBoard.previousBoard();
+        stack.push(goal.board);
+        SearchNode b = goal.previousSearchNode;
         while(b != null)
         {
-            stack.push(b);
-            b = b.previousBoard();
+            stack.push(b.board);
+            b = b.previousSearchNode;
         }
         return stack;
     }
