@@ -12,7 +12,7 @@ public class Board {
     
     private int[][] grid;                //used to store the blocks
     private int dimension;
-    public Board previousBoard;
+
     
     /**
       * construct a board from an N-by-N array of blocks
@@ -36,7 +36,6 @@ public class Board {
                 this.grid[j][k] = blocks[j][k];
             }
         }
-        previousBoard = null;  
     }
     
     /**
@@ -235,6 +234,7 @@ public class Board {
         return s.toString();
     }
     
+
 
     public static void main(String[] args) // unit tests (not graded)
     {
