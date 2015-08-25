@@ -5,7 +5,10 @@
  *  Last edited: 20150823
  *  Solver.java, the second part of week4's programming assignment
  ****************************************************************************/
-
+//import edu.princeton.cs.algs4.In;
+//import edu.princeton.cs.algs4.StdOut;
+//import edu.princeton.cs.algs4.MinPQ;
+//import edu.princeton.cs.algs4.Stack;
 
 public class Solver 
 {
@@ -14,13 +17,15 @@ public class Solver
     private SearchNode goal;
     private class SearchNode implements Comparable<SearchNode>
     {
+        private int priority;
         public Board board;
         public int moves;
         public SearchNode previousSearchNode;
         
+        
         public int priority()
         {
-            return this.board.manhattan() + this.moves;
+            return this.priority;
         }
         
         public SearchNode(Board b, int m, SearchNode pSN)
@@ -28,11 +33,12 @@ public class Solver
             this.board = b;
             this.moves = m;
             this.previousSearchNode = pSN;
+            this.priority = this.board.manhattan() + this.moves;
         }
         public int compareTo(SearchNode other)  
         {  
             if (this.priority() < other.priority()) 
-                return - 1 ;  
+                return -1 ;  
             if (this.priority() > other.priority())  
                 return 1 ;  
             return 0 ;  
@@ -62,10 +68,12 @@ public class Solver
             bTwin = pqTwin.delMin();
             for (Board i : b.board.neighbors())
             {
+                if (b.previousSearchNode != null && i.equals(b.previousSearchNode.board)) continue;
                 pq.insert(new SearchNode(i, b.moves + 1, b));
             }
             for (Board j : bTwin.board.neighbors())
             {
+                if (bTwin.previousSearchNode != null && j.equals(bTwin.previousSearchNode.board)) continue;
                 pqTwin.insert(new SearchNode(j, bTwin.moves + 1, bTwin));
             }
         }
@@ -150,5 +158,8 @@ public class Solver
             for (Board board : solver.solution())
                 StdOut.println(board);
         }
+
+        
     }
 }
+

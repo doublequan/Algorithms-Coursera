@@ -5,18 +5,41 @@
  *  Last edited: 20150823
  *  Board.java, the first part of week4's programming assignment
  ****************************************************************************/
-import java.lang.Math;
-import edu.princeton.cs.algs4.In;
+
+
+
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Stack;
 
-public class Board{
+public class Board
+{
     
     private int[][] grid;                //used to store the blocks
     private int dimension;
+    private boolean isGoal;
+    private int manhattan;
 //    private int moves;
 //    private Board previousBoard;
+    
+    
+    //check whether the board isGoal
+    private boolean checkIsGoal()
+    {
+        for (int i = 0; i < this.dimension; i++)
+        {
+            for (int j = 0; j < this.dimension; j++)
+            {
+                if (this.grid[i][j] != (i * this.dimension + j + 1))
+                {
+                    if (i != this.dimension - 1 || j != this.dimension - 1) 
+                        return false;
+                }
+            }
+        }
+        if (this.grid[this.dimension-1][this.dimension-1] != 0) return false;
+        return true;
+    }
+    
     
     /**
       * construct a board from an N-by-N array of blocks
@@ -40,6 +63,25 @@ public class Board{
                 this.grid[j][k] = blocks[j][k];
             }
         }
+        
+        //check whether the board isGoal
+        isGoal = checkIsGoal();
+        
+        //calculate the mahattan
+        this.manhattan = 0;
+        for (int i = 0; i < this.dimension; i++)
+        {
+            for (int j = 0; j < this.dimension; j++)
+            {
+                if (this.grid[i][j] != (i * this.dimension + j + 1) && this.grid[i][j] != 0)
+                {
+                        this.manhattan += Math.abs((this.grid[i][j] - 1) / this.dimension - i); //moves need to get to the right row
+                        this.manhattan += Math.abs((this.grid[i][j] - 1) % this.dimension - j); //moves need to get to the right column
+                }
+            }
+        }
+        
+        
     }
     
     
@@ -75,19 +117,9 @@ public class Board{
      */
     public int manhattan()
     {
-        int manhattan = 0;
-        for (int i = 0; i < this.dimension; i++)
-        {
-            for (int j = 0; j < this.dimension; j++)
-            {
-                if (this.grid[i][j] != (i * this.dimension + j + 1) && this.grid[i][j] != 0)
-                {
-                        manhattan += Math.abs((this.grid[i][j] - 1)/this.dimension - i); //moves need to get to the right row
-                        manhattan += Math.abs((this.grid[i][j] - 1)%this.dimension - j); //moves need to get to the right column
-                }
-            }
-        }
-        return manhattan;
+        
+        
+        return this.manhattan;
     }
     
     
@@ -96,19 +128,7 @@ public class Board{
      */
     public boolean isGoal()
     {
-        for (int i = 0; i < this.dimension; i++)
-        {
-            for (int j = 0; j < this.dimension; j++)
-            {
-                if (this.grid[i][j] != (i * this.dimension + j + 1))
-                {
-                    if (i != this.dimension - 1 || j != this.dimension - 1) 
-                        return false;
-                }
-            }
-        }
-        if (this.grid[this.dimension-1][this.dimension-1] != 0) return false;
-        return true;
+        return this.isGoal;
     }
     
     /**
@@ -153,7 +173,8 @@ public class Board{
         if (other == null) return false;
         if (other.getClass() != this.getClass()) return false;
         Board that = (Board) other;
-        if (that.dimension() != this.dimension) return false;
+        if(this.dimension() != that.dimension) return false;
+        if(this.manhattan != that.manhattan()) return false;
         if (that.toString().equals(this.toString())) return true;
         else                                         return false;
     }
@@ -183,27 +204,27 @@ public class Board{
         }
         
         Stack<Board> stack = new Stack<Board>();
-        if(oi != -1 && oj != -1)
+        if (oi != -1 && oj != -1)
         {
-            if(oi != 0)
+            if (oi != 0)
             {
                 exchange(tmp, oi, oj, oi-1, oj);
                 stack.push(new Board(tmp));
                 exchange(tmp, oi, oj, oi-1, oj);
             }
-            if(oi != this.dimension - 1)
+            if (oi != this.dimension - 1)
             {
                 exchange(tmp, oi, oj, oi+1, oj);
                 stack.push(new Board(tmp));
                 exchange(tmp, oi, oj, oi+1, oj);
             }
-            if(oj != 0)
+            if (oj != 0)
             {
                 exchange(tmp, oi, oj, oi, oj-1);
                 stack.push(new Board(tmp));
                 exchange(tmp, oi, oj, oi, oj-1);
             }
-            if(oj != this.dimension - 1)
+            if (oj != this.dimension - 1)
             {
                 exchange(tmp, oi, oj, oi, oj+1);
                 stack.push(new Board(tmp));
@@ -274,14 +295,16 @@ public class Board{
 
     public static void main(String[] args) // unit tests (not graded)
     {
-        int[][] blocks = {{1, 2, 3},
-                          {4, 5, 6},  
-                          {7, 8, 0}};
+        int[][] blocks = {{1, 2, 3, 4},
+                          {5, 6, 0, 8},  
+                          {9, 10, 11, 12},
+                          {13, 14, 15, 16}};
         Board board = new Board(blocks);
-//        Stack<Board> stack = (Stack<Board>)board.neighbors();
-//        while (!stack.isEmpty())
-//        {
-        StdOut.println(board.manhattan());
-//        }
+        Stack<Board> stack = (Stack<Board>)board.neighbors();
+        while (!stack.isEmpty())
+        {
+            StdOut.println(stack.pop());
+        }
     }
 }
+
