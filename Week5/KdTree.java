@@ -11,14 +11,15 @@ import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.Stack;
 
-
-import edu.princeton.cs.algs4.StdOut;
-
+//
+//import edu.princeton.cs.algs4.StdOut;
+//import edu.princeton.cs.algs4.StdRandom;
 
 public class KdTree 
 {
 
     private Node root;
+//    public int num;
         
     private static class Node 
     {
@@ -40,6 +41,7 @@ public class KdTree
     public KdTree()
     {
         //do nothing
+//        num = 0;
     }
     
     /**
@@ -80,7 +82,13 @@ public class KdTree
     private Node insert(Node n, RectHV rect, Point2D p, boolean b)
     {
         if (n == null) 
+        {
+            
+//            StdOut.println("Insert end , num = " + num);
+//            num = 0;
             return new Node(p, rect);
+        }
+//        num++;
         
         if (b) //according to x-coordinate
         {
@@ -333,6 +341,23 @@ public class KdTree
 //        pSet.draw();
 //        StdOut.println(pSet.nearest(p1));
 //        r.draw();
+        
+//        
+//        
+//        KdTree kd = new KdTree();
+//        
+//        int N = 1000;
+//        for (int i = 0; i < N; i++) 
+//        {
+//            double x = StdRandom.uniform(0.0, 1.0);
+//            double y = StdRandom.uniform(0.0, 1.0);
+//            kd.insert(new Point2D(x, y));
+//        }
+        
+//        for (int i = 0; i < 1000; i++)
+//            kd.insert(new Point2D(i*0.001, i*0.001));
+//        kd.insert(new Point2D(0.001, 0.001));
+//        kd.printAll();
         
     }
        
