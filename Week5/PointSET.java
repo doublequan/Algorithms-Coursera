@@ -98,7 +98,7 @@ public class PointSET {
         Point2D nearest = set.last();
         for (Point2D i : set)
         {
-            if (i.distanceSquaredTo(p) < i.distanceSquaredTo(nearest)) 
+            if (i.distanceSquaredTo(p) < p.distanceSquaredTo(nearest)) 
                 nearest = i;
         }
         return nearest;
