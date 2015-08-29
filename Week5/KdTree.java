@@ -11,9 +11,9 @@ import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.Stack;
 
-
-import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdRandom;
+//
+//import edu.princeton.cs.algs4.StdOut;
+//import edu.princeton.cs.algs4.StdRandom;
 
 public class KdTree 
 {
@@ -73,7 +73,7 @@ public class KdTree
     public void insert(Point2D p)
     {
         if (p == null) throw new NullPointerException("Point2D is null");
-        root = insert(root, new RectHV(0, 0, 1, 1), p, true);
+        root = insert(root, 0, 0, 1 ,1 , p, true);
         
     }
     
@@ -81,34 +81,34 @@ public class KdTree
     //x-coordinate if true, y-coordinate if false
     //@rect is the axis-aligned rectangle of node n
     //@return n if n is not null; return new node constructed by p if n is null
-    private Node insert(Node n, RectHV rect, Point2D p, boolean b)
+    private Node insert(Node n, double xmin, double ymin, double xmax, double ymax, Point2D p, boolean b)
     {
         if (n == null) 
         {
             this.size++;
 //            StdOut.println("Insert end , size = " + size);
-            return new Node(p, rect);
+            return new Node(p, new RectHV(xmin, ymin, xmax, ymax));
         }
 //        num++;
         
         if (b) //according to x-coordinate
         {
             if (p.x() < n.p.x())
-                n.left = insert(n.left, new RectHV(n.rect.xmin(), n.rect.ymin(), n.p.x(), n.rect.ymax()), p, !b);
+                n.left = insert(n.left, n.rect.xmin(), n.rect.ymin(), n.p.x(), n.rect.ymax(), p, !b);
             else
             {
                 if (p.equals(n.p)) return n;
-                n.right = insert(n.right, new RectHV(n.p.x(), n.rect.ymin(), n.rect.xmax(), n.rect.ymax()), p, !b);
+                n.right = insert(n.right, n.p.x(), n.rect.ymin(), n.rect.xmax(), n.rect.ymax(), p, !b);
             }
         }
         else  //according to y-coordinate
         {
             if (p.y() < n.p.y())
-                n.left = insert(n.left, new RectHV(n.rect.xmin(), n.rect.ymin(), n.rect.xmax(), n.p.y()), p, !b);
+                n.left = insert(n.left, n.rect.xmin(), n.rect.ymin(), n.rect.xmax(), n.p.y(), p, !b);
             else
             {
                 if (p.equals(n.p)) return n;
-                n.right = insert(n.right, new RectHV(n.rect.xmin(), n.p.y(), n.rect.xmax(), n.rect.ymax()), p, !b);
+                n.right = insert(n.right, n.rect.xmin(), n.p.y(), n.rect.xmax(), n.rect.ymax(), p, !b);
             }
         }
         return n;
@@ -243,21 +243,19 @@ public class KdTree
     
     private Point2D nearest(Node n, Point2D p, Point2D np, boolean b)
     {
+//        num++;
         if (n == null) return np;
+        
+//        StdOut.println("check " + n.p + " in nearest()");
+        
         if (np == null) np = n.p;
         if (p.equals(np)) return np;
         if (p.distanceSquaredTo(np) > p.distanceSquaredTo(n.p)) np = n.p;
-        if (p.distanceSquaredTo(np) <= n.rect.distanceSquaredTo(p)) return np;
+        if (p.distanceSquaredTo(np) <= n.rect.distanceSquaredTo(p)) return np;   //need to fix
 //        StdOut.println("searching nearest in : " + n.p);
         
         if (b)
         {
-//            if (n.left != null && p.distanceSquaredTo(np) <= n.left.rect.distanceSquaredTo(p))
-//                return nearest(n.right, p, np, !b);
-//            else if (n.right != null && p.distanceSquaredTo(np) <= n.right.rect.distanceSquaredTo(p))
-//                return nearest(n.left, p, np, !b);
-//            else 
-//            {
                 if (p.x() < n.p.x())
                     return nearest(n.right, p, nearest(n.left, p, np, !b), !b);
                 else
@@ -266,12 +264,6 @@ public class KdTree
         }
         else
         {
-//            if (n.left != null && p.distanceSquaredTo(np) <= n.left.rect.distanceSquaredTo(p))
-//                return nearest(n.right, p, np, !b);
-//            else if (n.right != null && p.distanceSquaredTo(np) <= n.right.rect.distanceSquaredTo(p))
-//                return nearest(n.left, p, np, !b);
-//            else 
-//            {
                 if (p.y() < n.p.y())
                     return nearest(n.right, p, nearest(n.left, p, np, !b), !b);
                 else
@@ -283,37 +275,6 @@ public class KdTree
         
         
     }
-
-//    private double distanceSquaredTo(Point2D p, Point2D min, Point2D max) 
-//    {
-//        double dx = 0.0, dy = 0.0;
-//        if      (p.x() < min.x()) dx = p.x() - min.x();
-//        else if (p.x() > max.x()) dx = p.x() - max.x();
-//        if      (p.y() < min.y()) dy = p.y() - min.y();
-//        else if (p.y() > max.y()) dy = p.y() - max.y();
-//        return dx*dx + dy*dy;
-//    }
-//    public void printAll()
-//    {
-//        printTree(root);
-//    }
-//    // for debug
-//    public void printTree(Node n)
-//    {
-//        if (n == null) 
-//        {
-//            StdOut.print(" null ");
-//            return;
-//        }
-//        StdOut.print("{ Point2D = " + n.p + " | RectHV = " + n.rect + "\n");
-//        StdOut.print(" | my LeftNode is ");
-//        printTree(n.left);
-//        StdOut.print("\n");
-//        StdOut.print(" | my RightNode is ");
-//        printTree(n.right);
-//        StdOut.print("\n");
-//        StdOut.print(" } \n");
-//    }
 
     public static void main(String[] args)                  // unit testing of the methods (optional) 
     {
@@ -348,8 +309,8 @@ public class KdTree
         
 //        
 //        
-        KdTree kd = new KdTree();
-        
+//        KdTree kd = new KdTree();
+//        
 //        int N = 1000;
 //        for (int i = 0; i < N; i++) 
 //        {
@@ -357,10 +318,10 @@ public class KdTree
 //            double y = StdRandom.uniform(0.0, 1.0);
 //            kd.insert(new Point2D(x, y));
 //        }
-
-//        for (int i = 0; i < 1000; i++)
-//            kd.insert(new Point2D(i*0.001, i*0.001));
-//        kd.insert(new Point2D(0.001, 0.001));
+//
+////        for (int i = 0; i < 1000; i++)
+////            kd.insert(new Point2D(i*0.001, i*0.001));
+//        StdOut.println(kd.nearest(new Point2D(0,1)) + "  |  num = " + kd.num);
         //kd.printAll();
         
     }
