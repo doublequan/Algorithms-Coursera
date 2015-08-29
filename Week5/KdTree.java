@@ -2,7 +2,7 @@
  *  the programming assignment of Algorithms, Part I 
  *  Week5
  *  author: Bill Quan  
- *  Last edited: 20150828
+ *  Last edited: 20150829
  *  KdTree.java, the second part of week5's programming assignment
  ****************************************************************************/
 
@@ -11,14 +11,15 @@ import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.Stack;
 
-//
-//import edu.princeton.cs.algs4.StdOut;
-//import edu.princeton.cs.algs4.StdRandom;
+
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class KdTree 
 {
 
     private Node root;
+    private int size;
 //    public int num;
         
     private static class Node 
@@ -40,7 +41,7 @@ public class KdTree
      */
     public KdTree()
     {
-        //do nothing
+        this.size = 0;
 //        num = 0;
     }
     
@@ -49,7 +50,7 @@ public class KdTree
      */
     public boolean isEmpty()
     {
-        return this.size() == 0;
+        return this.size == 0;
     }
     
     /**
@@ -57,14 +58,14 @@ public class KdTree
      */
     public int size()
     {
-        return size(root);
+        return this.size;
     }
     
-    // return number of Nodes rooted at x
-    private int size(Node x) {
-        if (x == null) return 0;
-        else return size(x.left) + size(x.right) + 1;
-    }
+//    // return number of Nodes rooted at x
+//    private int size(Node x) {
+//        if (x == null) return 0;
+//        else return size(x.left) + size(x.right) + 1;
+//    }
     
     /**
      * add the point to the tree (if it is not already in the tree)
@@ -73,6 +74,7 @@ public class KdTree
     {
         if (p == null) throw new NullPointerException("Point2D is null");
         root = insert(root, new RectHV(0, 0, 1, 1), p, true);
+        
     }
     
     //insert the point2D p into the subtree of Node n according to the x-coordinate or y-coordinate decided by boolean b
@@ -83,9 +85,8 @@ public class KdTree
     {
         if (n == null) 
         {
-            
-//            StdOut.println("Insert end , num = " + num);
-//            num = 0;
+            this.size++;
+//            StdOut.println("Insert end , size = " + size);
             return new Node(p, rect);
         }
 //        num++;
@@ -96,7 +97,7 @@ public class KdTree
                 n.left = insert(n.left, new RectHV(n.rect.xmin(), n.rect.ymin(), n.p.x(), n.rect.ymax()), p, !b);
             else
             {
-                if (p.x() == n.p.x() && p.y() == n.p.y()) return n;
+                if (p.equals(n.p)) return n;
                 n.right = insert(n.right, new RectHV(n.p.x(), n.rect.ymin(), n.rect.xmax(), n.rect.ymax()), p, !b);
             }
         }
@@ -106,7 +107,7 @@ public class KdTree
                 n.left = insert(n.left, new RectHV(n.rect.xmin(), n.rect.ymin(), n.rect.xmax(), n.p.y()), p, !b);
             else
             {
-                if (p.y() == n.p.y() && p.x() == n.p.x()) return n;
+                if (p.equals(n.p)) return n;
                 n.right = insert(n.right, new RectHV(n.rect.xmin(), n.p.y(), n.rect.xmax(), n.rect.ymax()), p, !b);
             }
         }
@@ -199,6 +200,8 @@ public class KdTree
             }
             else if (n.p.x() <= rect.xmin()) //split line does not intersect the query rectangle
             {
+                if (rect.contains(n.p))
+                    s.push(n.p);
                 return range(n.right, rect, s, !b);
             }
             else                        //split line intersects the query rectangle
@@ -216,6 +219,8 @@ public class KdTree
             }
             else if (n.p.y() <= rect.ymin()) //split line does not intersect the query rectangle
             {
+                if (rect.contains(n.p))
+                    s.push(n.p);
                 return range(n.right, rect, s, !b);
             }
             else                        //split line intersects the query rectangle
@@ -239,7 +244,6 @@ public class KdTree
     private Point2D nearest(Node n, Point2D p, Point2D np, boolean b)
     {
         if (n == null) return np;
-        
         if (np == null) np = n.p;
         if (p.equals(np)) return np;
         if (p.distanceSquaredTo(np) > p.distanceSquaredTo(n.p)) np = n.p;
@@ -344,8 +348,8 @@ public class KdTree
         
 //        
 //        
-//        KdTree kd = new KdTree();
-//        
+        KdTree kd = new KdTree();
+        
 //        int N = 1000;
 //        for (int i = 0; i < N; i++) 
 //        {
@@ -353,11 +357,11 @@ public class KdTree
 //            double y = StdRandom.uniform(0.0, 1.0);
 //            kd.insert(new Point2D(x, y));
 //        }
-        
+
 //        for (int i = 0; i < 1000; i++)
 //            kd.insert(new Point2D(i*0.001, i*0.001));
 //        kd.insert(new Point2D(0.001, 0.001));
-//        kd.printAll();
+        //kd.printAll();
         
     }
        
