@@ -12,6 +12,7 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.SET;
+import edu.princeton.cs.algs4.Stack;
 
 public class SAP {
     private Digraph mG;
@@ -44,18 +45,37 @@ public class SAP {
         myBFS bfs = new myBFS(mG, v, w);
         return bfs.ancestor();
     }
-/**
+
    // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
    public int length(Iterable<Integer> v, Iterable<Integer> w)
+   {
+       isValid(v);
+       isValid(w);
+       myBFS bfs = new myBFS(mG, v, w);
+       return bfs.sap();
+   }
 
    // a common ancestor that participates in shortest ancestral path; -1 if no such path
    public int ancestor(Iterable<Integer> v, Iterable<Integer> w)
-   **/
+   {
+       isValid(v);
+       isValid(w);
+       myBFS bfs = new myBFS(mG, v, w);
+       return bfs.ancestor();
+   }
+
     
     private void isValid(int v)
     {
        if ((v < 0) && (v >= mG.V()))
            throw new IndexOutOfBoundsException("input invalid");
+    }
+    
+    private void isValid(Iterable<Integer> v)
+    {
+        for (int i : v)
+            if ((i < 0) && (i >= mG.V()))
+            throw new IndexOutOfBoundsException("input invalid");
     }
     
     
@@ -66,8 +86,17 @@ public class SAP {
         Digraph G = new Digraph(in);
         SAP sap = new SAP(G);
         
-        StdOut.print("ancestor:  " + sap.ancestor(8, 8) + "\n");
-        StdOut.print("length:  " + sap.length(8, 8) + "\n");
+        Stack<Integer> s1 = new Stack<Integer>();
+        Stack<Integer> s2 = new Stack<Integer>();
+        s1.push(1);
+        s1.push(8);
+        s2.push(7);
+        s2.push(0);
+        
+        StdOut.print("ancestor:  " + sap.ancestor(s1, s2) + "\n");
+        StdOut.print("length:  " + sap.length(s1, s2) + "\n");
+//        StdOut.print("ancestor:  " + sap.ancestor(1, 7) + "\n");
+//        StdOut.print("length:  " + sap.length(1, 7) + "\n");
 //        while (!StdIn.isEmpty()) 
 //        {
 //            int v = StdIn.readInt();
