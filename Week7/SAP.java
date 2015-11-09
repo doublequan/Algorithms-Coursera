@@ -66,8 +66,8 @@ public class SAP {
         Digraph G = new Digraph(in);
         SAP sap = new SAP(G);
         
-        StdOut.print("ancestor:  " + sap.ancestor(5, 7) + "\n");
-        StdOut.print("length:  " + sap.length(7, 5) + "\n");
+        StdOut.print("ancestor:  " + sap.ancestor(3, 7) + "\n");
+        StdOut.print("length:  " + sap.length(7, 3) + "\n");
 //        while (!StdIn.isEmpty()) 
 //        {
 //            int v = StdIn.readInt();
