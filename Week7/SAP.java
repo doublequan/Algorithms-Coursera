@@ -33,7 +33,7 @@ public class SAP {
         
         myBFS bfs = new myBFS(mG, v, w);
         
-        return bfs.length();
+        return bfs.sap();
     }
 
     // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
@@ -66,8 +66,8 @@ public class SAP {
         Digraph G = new Digraph(in);
         SAP sap = new SAP(G);
         
-        StdOut.print("ancestor:  " + sap.ancestor(8, 1) + "\n");
-        StdOut.print("length:  " + sap.length(8, 1) + "\n");
+        StdOut.print("ancestor:  " + sap.ancestor(8, 8) + "\n");
+        StdOut.print("length:  " + sap.length(8, 8) + "\n");
 //        while (!StdIn.isEmpty()) 
 //        {
 //            int v = StdIn.readInt();

@@ -50,7 +50,7 @@ public class myBFS
         edgeTo2 = new int[G.V()];
         for (int v = 0; v < G.V(); v++)
             distTo2[v] = INFINITY;
-        ancestor = INFINITY;
+        ancestor = -1;
         bfs(G, s, w);
    
     }
@@ -181,9 +181,14 @@ public class myBFS
         return ancestor;
     }
     
-    public int length()
+    private int length()
     {
-        return ancestor == INFINITY ? INFINITY : (distTo[ancestor] + distTo2[ancestor]);
+        return ancestor == -1 ? INFINITY : (distTo[ancestor] + distTo2[ancestor]);
+    }
+    
+    public int sap()
+    {
+        return ancestor == -1 ? -1 : (distTo[ancestor] + distTo2[ancestor]);
     }
     
 }
