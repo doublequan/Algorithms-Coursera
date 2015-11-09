@@ -86,24 +86,24 @@ public class SAP {
         Digraph G = new Digraph(in);
         SAP sap = new SAP(G);
         
-        Stack<Integer> s1 = new Stack<Integer>();
-        Stack<Integer> s2 = new Stack<Integer>();
-        s1.push(1);
-        s1.push(8);
-        s2.push(7);
-        s2.push(0);
-        
-        StdOut.print("ancestor:  " + sap.ancestor(s1, s2) + "\n");
-        StdOut.print("length:  " + sap.length(s1, s2) + "\n");
+//        Stack<Integer> s1 = new Stack<Integer>();
+//        Stack<Integer> s2 = new Stack<Integer>();
+//        s1.push(1);
+//        s1.push(8);
+//        s2.push(7);
+//        s2.push(0);
+//        
+//        StdOut.print("ancestor:  " + sap.ancestor(s1, s2) + "\n");
+//        StdOut.print("length:  " + sap.length(s1, s2) + "\n");
 //        StdOut.print("ancestor:  " + sap.ancestor(1, 7) + "\n");
 //        StdOut.print("length:  " + sap.length(1, 7) + "\n");
-//        while (!StdIn.isEmpty()) 
-//        {
-//            int v = StdIn.readInt();
-//            int w = StdIn.readInt();
-//            int length   = sap.length(v, w);
-//            int ancestor = sap.ancestor(v, w);
-//            StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
-//        }
+        while (!StdIn.isEmpty()) 
+        {
+            int v = StdIn.readInt();
+            int w = StdIn.readInt();
+            int length   = sap.length(v, w);
+            int ancestor = sap.ancestor(v, w);
+            StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
+        }
     }
 }

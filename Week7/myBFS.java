@@ -9,7 +9,7 @@
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.SET;
-import edu.princeton.cs.algs4.StdOut;
+//import edu.princeton.cs.algs4.StdOut;
 
 public class myBFS 
 {
@@ -100,7 +100,7 @@ public class myBFS
             //search s first
             if (!q.isEmpty() && (length() > distTo[q.peek()]))
             {
-                StdOut.print("q = " + q);
+//                StdOut.print("q = " + q);
                 
                 int i = q.dequeue();
                 
@@ -115,7 +115,7 @@ public class myBFS
                     {
                         edgeTo[j] = i;
                         distTo[j] = distTo[i] + 1;
-                        StdOut.print("Goal ---- distTo" + j + " = " + distTo[j] + " from  " + i + "\n");
+//                        StdOut.print("Goal ---- distTo" + j + " = " + distTo[j] + " from  " + i + "\n");
                         marked[j] = true;
                         
                         // find the ancestral which is marked both by s and w
@@ -133,7 +133,7 @@ public class myBFS
             //search w then
             if (!q2.isEmpty() && (length() > distTo2[q2.peek()]))
             {
-                StdOut.print("q2 = " + q2);
+//                StdOut.print("q2 = " + q2);
                 int i = q2.dequeue();
                 
 //                for (int j : G.adj(i))
@@ -146,7 +146,7 @@ public class myBFS
                     {
                         edgeTo2[j] = i;
                         distTo2[j] = distTo2[i] + 1;
-                        StdOut.print("Goal ---- distTo" + j + " = " + distTo2[j] + " from  " + i + "\n");
+//                        StdOut.print("Goal ---- distTo" + j + " = " + distTo2[j] + " from  " + i + "\n");
                         marked2[j] = true;
                         
                         // find the ancestral which is marked both by s and w
@@ -210,7 +210,7 @@ public class myBFS
                     {
                         edgeTo[j] = i;
                         distTo[j] = distTo[i] + 1;
-                        StdOut.print("---- distTo" + j + " = " + distTo[j] + " from  " + i + "\n");
+//                        StdOut.print("---- distTo" + j + " = " + distTo[j] + " from  " + i + "\n");
                         marked[j] = true;
                         // find the ancestral which is marked both by s and w
                         if (marked2[j] && (length() > (distTo[j]+distTo2[j])))
@@ -233,7 +233,7 @@ public class myBFS
                     {
                         edgeTo2[j] = i;
                         distTo2[j] = distTo2[i] + 1;
-                        StdOut.print("|||| distTo" + j + " = " + distTo2[j] + " from  " + i + "\n");
+//                        StdOut.print("|||| distTo" + j + " = " + distTo2[j] + " from  " + i + "\n");
                         marked2[j] = true;
                         
                         // find the ancestral which is marked both by s and w
