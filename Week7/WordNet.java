@@ -2,7 +2,7 @@
  *  the programming assignment of Algorithms, Part II 
  *  Week1 Part II
  *  author: Bill Quan  
- *  Last edited: 20151108
+ *  Last edited: 20151109
  *  WordNet.java
  ****************************************************************************/
 
