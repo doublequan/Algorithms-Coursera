@@ -8,7 +8,7 @@
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
+//import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.Bag;
@@ -31,7 +31,7 @@ public class WordNet {
         isRooted();
         isDAG();
         sap = new SAP(mG);
-        StdOut.print(mG);
+//        StdOut.print(mG);
 //        In in2 = new In(hypernyms);
 //        //int i = in.readInt();
 //        String line = in.readLine();
@@ -138,8 +138,7 @@ public class WordNet {
         int rootNum = 0;
         for (int i = 0; i < mG.V(); i++)
         {
-            Bag<Integer> tmp = (Bag<Integer>)mG.adj(i);
-            if(tmp.size() == 0)
+            if(mG.outdegree(i) == 0)
             {
                 root = i;
                 rootNum++;
@@ -162,7 +161,7 @@ public class WordNet {
     public static void main(String[] args)
     {
         WordNet wn = new WordNet(args[0], args[1]);
-        StdOut.print("distance :  " + wn.distance("a", "c") + "\n");
-        StdOut.print("SAP : " + wn.sap("a", "c") + "\n");
+//        StdOut.print("distance :  " + wn.distance("a", "c") + "\n");
+//        StdOut.print("SAP : " + wn.sap("a", "c") + "\n");
     }
 }

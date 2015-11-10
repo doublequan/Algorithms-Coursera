@@ -20,7 +20,7 @@ public class Outcast {
     }
     public String outcast(String[] nouns)   // given an array of WordNet nouns, return an outcast
     {
-        int dist[] = new int[nouns.length];
+        int[] dist = new int[nouns.length];
         for (int i = 0; i < nouns.length; i++)
             for (int j = 0; j < nouns.length; j++)
         {
@@ -30,7 +30,7 @@ public class Outcast {
             }
         }
         int maxid = 0;
-        for (int i : dist)
+        for (int i = 0; i < nouns.length; i++)
         {
             if (dist[maxid] < dist[i])
                 maxid = i;
