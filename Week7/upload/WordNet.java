@@ -67,6 +67,8 @@ public class WordNet {
     {
 //        int idA = map.get(nounA);
 //        int idB = map.get(nounB);
+        if (!isNoun(nounA) || !isNoun(nounA))
+            throw new IllegalArgumentException("input is not a wordnet noun");
         return sap.length(map.get(nounA), map.get(nounB));
         
     }
@@ -75,6 +77,8 @@ public class WordNet {
      // in a shortest ancestral path (defined below)
      public String sap(String nounA, String nounB)
      {
+         if (!isNoun(nounA) || !isNoun(nounA))
+             throw new IllegalArgumentException("input is not a wordnet noun");
          return map2.get(sap.ancestor(map.get(nounA), map.get(nounB)));
      }
 
@@ -104,7 +108,7 @@ public class WordNet {
             }
             
             
-            map2.put(Integer.parseInt(all[0]), words[0]);
+            map2.put(Integer.parseInt(all[0]), all[1]);
             
         }
     }
@@ -113,7 +117,7 @@ public class WordNet {
     {
         if (name == null) throw new NullPointerException("input name is null");
         In in = new In(name);
-        mG = new Digraph(map.size());
+        mG = new Digraph(map2.size());
 
         
         while(!in.isEmpty())
@@ -142,11 +146,15 @@ public class WordNet {
             {
                 root = i;
                 rootNum++;
+//                StdOut.print("root is :" + root + "|| rootNum now is :" + rootNum + "\n");
             }
         }
         
+//        StdOut.print("root is :" + root + "|| rootNum now is :" + rootNum + "\n");
+        
         if (rootNum != 1)
             throw new IllegalArgumentException("root numbers is wrong!");
+        
         
         return root;
     }
@@ -160,8 +168,8 @@ public class WordNet {
     
     public static void main(String[] args)
     {
-        WordNet wn = new WordNet(args[0], args[1]);
-//        StdOut.print("distance :  " + wn.distance("a", "c") + "\n");
+//        WordNet wn = new WordNet(args[0], args[1]);
+//        StdOut.print("distance :  " + wn.distance("a", "drug") + "\n");
 //        StdOut.print("SAP : " + wn.sap("a", "c") + "\n");
     }
 }

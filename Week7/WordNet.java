@@ -67,6 +67,8 @@ public class WordNet {
     {
 //        int idA = map.get(nounA);
 //        int idB = map.get(nounB);
+        if (!isNoun(nounA) || !isNoun(nounA))
+            throw new IllegalArgumentException("input is not a wordnet noun");
         return sap.length(map.get(nounA), map.get(nounB));
         
     }
@@ -75,6 +77,8 @@ public class WordNet {
      // in a shortest ancestral path (defined below)
      public String sap(String nounA, String nounB)
      {
+         if (!isNoun(nounA) || !isNoun(nounA))
+             throw new IllegalArgumentException("input is not a wordnet noun");
          return map2.get(sap.ancestor(map.get(nounA), map.get(nounB)));
      }
 
@@ -104,7 +108,7 @@ public class WordNet {
             }
             
             
-            map2.put(Integer.parseInt(all[0]), words[0]);
+            map2.put(Integer.parseInt(all[0]), all[1]);
             
         }
     }
