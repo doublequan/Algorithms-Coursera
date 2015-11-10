@@ -1,10 +1,18 @@
 #Algorithms
-======
-the code of programming assignments in Algorithms Part I and Part II, Princeton <br>
-courses url:  Algorithms Part I  https://class.coursera.org/algs4partI-008 <br>
-              Algorithms Part II to be updated
-------
-**Contents**
+----
+
+Coursera, *Algorithms Part I* and *Algorithms Part II*, Princeton<br>
+
+the code of programming assignments
+
+Author : Bill Quan
+
+###Courses url:  
+> Algorithms Part I : [https://class.coursera.org/algs4partI-008](https://class.coursera.org/algs4partI-008 "algs4partI") <br>
+> Algorithms Part II : [https://class.coursera.org/algs4partII-006](https://class.coursera.org/algs4partII-006 "algs4partII")
+
+
+###**Contents**
 * Part I
   * Week1  (93.6/100)
 
@@ -31,5 +39,13 @@ courses url:  Algorithms Part I  https://class.coursera.org/algs4partI-008 <br>
 
             Week5/Kdtree.java
             Week5/PointSet.java
-* Part II
-  * to be updated
+
+* Part II  
+  * Week7  (100/100)
+
+			Week7/upload/myBFS.java
+			Week7/upload/WordNet.java
+			Week7/upload/SAP.java
+			Week7/upload/Outcast.java
+
+
