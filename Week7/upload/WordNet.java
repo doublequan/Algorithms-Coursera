@@ -59,6 +59,8 @@ public class WordNet {
     // is the word a WordNet noun?
     public boolean isNoun(String word)
     {
+        if (word == null)
+            throw new NullPointerException("input is null");
         return map.containsKey(word);
     }
     
