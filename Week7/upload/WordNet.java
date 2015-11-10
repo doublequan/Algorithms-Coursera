@@ -65,10 +65,10 @@ public class WordNet {
     // distance between nounA and nounB (defined below)
     public int distance(String nounA, String nounB)
     {
-//        int idA = map.get(nounA);
-//        int idB = map.get(nounB);
-        if (!isNoun(nounA) || !isNoun(nounA))
+        if (!isNoun(nounA) || !isNoun(nounB))
             throw new IllegalArgumentException("input is not a wordnet noun");
+        if (nounA == null || nounB == null)
+            throw new NullPointerException("input is null");
         return sap.length(map.get(nounA), map.get(nounB));
         
     }
@@ -77,8 +77,10 @@ public class WordNet {
      // in a shortest ancestral path (defined below)
      public String sap(String nounA, String nounB)
      {
-         if (!isNoun(nounA) || !isNoun(nounA))
+         if (!isNoun(nounA) || !isNoun(nounB))
              throw new IllegalArgumentException("input is not a wordnet noun");
+         if (nounA == null || nounB == null)
+             throw new NullPointerException("input is null");
          return map2.get(sap.ancestor(map.get(nounA), map.get(nounB)));
      }
 
