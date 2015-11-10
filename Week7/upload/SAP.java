@@ -23,7 +23,7 @@ public class SAP {
     {
         if (G == null) throw new NullPointerException("input Digraph is null");
         mG = new Digraph(G);
-        StdOut.print(mG + "\n");
+//        StdOut.print(mG + "\n");
     }
     
     // length of shortest ancestral path between v and w; -1 if no such path

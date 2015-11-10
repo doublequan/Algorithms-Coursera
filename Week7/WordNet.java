@@ -113,7 +113,7 @@ public class WordNet {
     {
         if (name == null) throw new NullPointerException("input name is null");
         In in = new In(name);
-        mG = new Digraph(map.size());
+        mG = new Digraph(map2.size());
 
         
         while(!in.isEmpty())
@@ -142,11 +142,15 @@ public class WordNet {
             {
                 root = i;
                 rootNum++;
+//                StdOut.print("root is :" + root + "|| rootNum now is :" + rootNum + "\n");
             }
         }
         
+//        StdOut.print("root is :" + root + "|| rootNum now is :" + rootNum + "\n");
+        
         if (rootNum != 1)
             throw new IllegalArgumentException("root numbers is wrong!");
+        
         
         return root;
     }
@@ -160,8 +164,8 @@ public class WordNet {
     
     public static void main(String[] args)
     {
-        WordNet wn = new WordNet(args[0], args[1]);
-//        StdOut.print("distance :  " + wn.distance("a", "c") + "\n");
+//        WordNet wn = new WordNet(args[0], args[1]);
+//        StdOut.print("distance :  " + wn.distance("a", "drug") + "\n");
 //        StdOut.print("SAP : " + wn.sap("a", "c") + "\n");
     }
 }
