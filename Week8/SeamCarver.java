@@ -30,12 +30,7 @@ public class SeamCarver
         energyArray = new double[p.width()][p.height()];
         calEnergyArray();
         
-        distTo = new double[p.width()][p.height()];
-        for (double i[] : distTo)
-        for (double j : i)
-            j = INFINITY;
-        
-        edgeTo = new int[p.width()][p.height()];
+
     }
     
     // current picture
@@ -79,40 +74,83 @@ public class SeamCarver
     }
     
     // sequence of indices for horizontal seam
-//    public int[] findHorizontalSeam()        
-//    {
-//        
-//        return ;
-//    }
+    public int[] findHorizontalSeam()        
+    {
+        //reverse this.energyArray
+        double[][] energyR = reverse(energyArray);
+        
+        //initial distTo and edgeTo
+        distTo = new double[p.height()][p.width()];
+        for (double i[] : distTo)
+            for (double j : i)
+                j = INFINITY;
+        edgeTo = new int[p.height()][p.width()];
+        
+        int[] rst = findSeam(energyR, energyR.length, energyR[0].length);
+        
+        //reverse rst
+        for (int i = 0; i < rst.length; i++)
+        {
+            rst[i] = p.height() - 1 - rst[i];
+        }
+        return rst;
+        
+    }
     
     // sequence of indices for vertical seam        
     public   int[] findVerticalSeam()
     {
-        for (int r = 0; r < height(); r++)
-            for (int c = 0; c < width(); c++)
-        {
-            relax(c, r);
-        }
+        distTo = new double[p.width()][p.height()];
+        for (double i[] : distTo)
+            for (double j : i)
+                j = INFINITY;
         
-        int minID = 0;
-        for (int c = 0; c < width(); c++)
-        {
-            if (distTo[c][height()-1] < distTo[minID][height()-1])
-                minID = c;
-        } 
+        edgeTo = new int[p.width()][p.height()];
         
-        int[] rst = new int[height()];
-        rst[height()-1] = minID;
-        for (int r = height()-2; r >= 0; r--)
-        {
-            rst[r] = edgeTo[rst[r + 1]][r + 1];
-        }
-        return rst;
+        return findSeam(this.energyArray, this.width(), this.height());
     }
     /**
      public    void removeHorizontalSeam(int[] seam)   // remove horizontal seam from current picture
      public    void removeVerticalSeam(int[] seam)     // remove vertical seam from current picture
      **/
+    
+    private double[][] reverse(double[][] matrix)
+    {
+        if (matrix == null) throw new NullPointerException("input is null");
+        
+        double[][] rst = new double[matrix[0].length][matrix.length];
+        for (int i = 0; i < matrix[0].length; i++)
+            for (int j = 0; j < matrix.length; j++)
+            {
+                rst[i][j] = matrix[j][matrix[0].length - 1 - i];
+            }
+        return rst;
+        
+    }
+    
+    private int[] findSeam(double[][] energy, int W, int H)
+    {
+        for (int r = 0; r < H; r++)
+            for (int c = 0; c < W; c++)
+        {
+            relax(energy, c, r, W, H);
+        }
+        
+        int minID = 0;
+        for (int c = 0; c < W; c++)
+        {
+            if (distTo[c][H-1] < distTo[minID][H-1])
+                minID = c;
+        } 
+        
+        int[] rst = new int[H];
+        rst[H-1] = minID;
+        for (int r = H-2; r >= 0; r--)
+        {
+            rst[r] = edgeTo[rst[r + 1]][r + 1];
+        }
+        return rst;
+    }
     
     //calulate the EnergyArray
     private void calEnergyArray()
@@ -127,10 +165,10 @@ public class SeamCarver
     }
     
     //update the distTo and edgeTo according to the input column c and row r 
-    private void relax(int c, int r)
+    private void relax(double[][] energy, int c, int r, int W, int H)
     {
-        if (c < 0 || c >= width() 
-                || r < 0 || r >= height())
+        if (c < 0 || c >= W 
+                || r < 0 || r >= H)
             throw new IndexOutOfBoundsException("input IndexOutOfBounds");
         
         if (r == 0)
@@ -139,9 +177,9 @@ public class SeamCarver
             edgeTo[c][r] = -1;
             return;
         }
-        if (width() == 1)
+        if (W == 1)
         {
-            distTo[c][r] = distTo[c][r - 1] + energyArray[c][r];
+            distTo[c][r] = distTo[c][r - 1] + energy[c][r];
             edgeTo[c][r] = c;
             return;
         }
@@ -149,26 +187,26 @@ public class SeamCarver
         {
             if (distTo[c][r - 1] <= distTo[c + 1][r - 1])
             {
-                distTo[c][r] = distTo[c][r - 1] + energyArray[c][r];
+                distTo[c][r] = distTo[c][r - 1] + energy[c][r];
                 edgeTo[c][r] = c;
             }
             else
             {
-                distTo[c][r] = distTo[c + 1][r - 1] + energyArray[c][r];
+                distTo[c][r] = distTo[c + 1][r - 1] + energy[c][r];
                 edgeTo[c][r] = c + 1;
             }
             return;
         }
-        if (c == width()-1)
+        if (c == W-1)
         {
             if (distTo[c - 1][r - 1] <= distTo[c][r - 1])
             {
-                distTo[c][r] = distTo[c - 1][r - 1] + energyArray[c][r];
+                distTo[c][r] = distTo[c - 1][r - 1] + energy[c][r];
                 edgeTo[c][r] = c - 1;
             }
             else
             {
-                distTo[c][r] = distTo[c][r - 1] + energyArray[c][r];
+                distTo[c][r] = distTo[c][r - 1] + energy[c][r];
                 edgeTo[c][r] = c;
             }
             return;
@@ -176,17 +214,17 @@ public class SeamCarver
         
         if (distTo[c - 1][r - 1] <= distTo[c][r - 1] && distTo[c - 1][r - 1] <= distTo[c + 1][r - 1])
         {
-            distTo[c][r] = distTo[c - 1][r - 1] + energyArray[c][r];
+            distTo[c][r] = distTo[c - 1][r - 1] + energy[c][r];
             edgeTo[c][r] = c - 1;
         }
         else if (distTo[c][r - 1] <= distTo[c + 1][r - 1])
         {
-            distTo[c][r] = distTo[c][r - 1] + energyArray[c][r];
+            distTo[c][r] = distTo[c][r - 1] + energy[c][r];
             edgeTo[c][r] = c;
         }
         else
         {
-            distTo[c][r] = distTo[c + 1][r - 1] + energyArray[c][r];
+            distTo[c][r] = distTo[c + 1][r - 1] + energy[c][r];
             edgeTo[c][r] = c + 1;
         }
     }
