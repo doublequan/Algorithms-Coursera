@@ -1,2 +1,4 @@
 *.class
 *.bak
+/Week8/nbproject/private/
+/Week8/SeamCarver/nbproject/private/

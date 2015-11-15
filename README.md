@@ -1,7 +1,7 @@
-#Algorithms
+#Algorithms Coursera
 ----
 
-Coursera, *Algorithms Part I* and *Algorithms Part II*, Princeton<br>
+Coursera, *Algorithms Part I* and *Algorithms Part II*, Princeton University, by Kevin Wayne, Robert Sedgewick<br>
 
 the code of programming assignments
 
