@@ -24,13 +24,13 @@ Author : Bill Quan
             Week2/Deque.java
             Week2/RandomizedQueue.java
 
-  * Week3  (100/100)
+  * Week3  
  
             Week3/Upload/Point.java
             Week3/Upload/Brute.java
             Week3/Upload/Fast.java
 
-  * Week4  (100/100)
+  * Week4  
 
             Week4/Upload/Board.java
             Week4/Upload/Solver.java
@@ -48,4 +48,6 @@ Author : Bill Quan
 			Week7/upload/SAP.java
 			Week7/upload/Outcast.java
 
-
+  * Week8  (100/100)	
+	
+			Week8/SeamCarver.java
