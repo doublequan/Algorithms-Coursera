@@ -139,12 +139,28 @@ public class SeamCarver
     // remove horizontal seam from current picture
     public void removeHorizontalSeam(int[] seam) 
     {
+        if (H < 2)
+            throw new IllegalArgumentException("Picture height less than 2");
         isValid(seam, false);
+        
+        for (int c = 0; c < W; c++)
+        {
+            for (int r = seam[c]; r < H - 1; r++)
+            {
+                color[c][r] = color[c][r + 1];
+            }
+        }
+        H--;
+        
+        calEnergyArray();
     }
     // remove vertical seam from current picture
     public void removeVerticalSeam(int[] seam)     
     {
+        if (W < 2)
+            throw new IllegalArgumentException("Picture width less than 2");
         isValid(seam, true);
+
 
         for (int r = 0; r < H; r++)
         {
@@ -154,6 +170,8 @@ public class SeamCarver
             }
         }
         W--;
+        
+        calEnergyArray();
     }
      
     //check if the input seam[] is valid, 
@@ -184,11 +202,17 @@ public class SeamCarver
     {
         if (matrix == null) throw new NullPointerException("input is null");
         
-        double[][] rst = new double[matrix[0].length][matrix.length];
-        for (int i = 0; i < matrix[0].length; i++)
-            for (int j = 0; j < matrix.length; j++)
+//        double[][] rst = new double[matrix[0].length][matrix.length];
+//        for (int i = 0; i < matrix[0].length; i++)
+//            for (int j = 0; j < matrix.length; j++)
+//            {
+//                rst[i][j] = matrix[j][matrix[0].length - 1 - i];
+//            }
+        double[][] rst = new double[H][W];
+        for (int i = 0; i < H; i++)
+            for (int j = 0; j < W; j++)
             {
-                rst[i][j] = matrix[j][matrix[0].length - 1 - i];
+                rst[i][j] = matrix[j][H - 1 - i];
             }
         return rst;
         
@@ -196,7 +220,7 @@ public class SeamCarver
     
     private int[] findSeam(double[][] energy, int W, int H)
     {
-        calEnergyArray();
+
         for (int r = 0; r < H; r++)
             for (int c = 0; c < W; c++)
         {
