@@ -12,9 +12,12 @@ import java.awt.Color;
 public class SeamCarver 
 {
     private Picture p;
+    private int W;
+    private int H;
     private double[][] energyArray;
-    public double[][] distTo;
-    public int[][] edgeTo;
+    private double[][] distTo;
+    private int[][] edgeTo;
+    private Color[][] color;
     
     private static final double INFINITY = Double.MAX_VALUE;
     
@@ -27,7 +30,10 @@ public class SeamCarver
         else
             throw new NullPointerException("input is null");
         
-        energyArray = new double[p.width()][p.height()];
+        W = p.width();
+        H = p.height();
+        
+        energyArray = new double[W][H];
         calEnergyArray();
         
 
@@ -42,13 +48,13 @@ public class SeamCarver
     // width of current picture
     public int width()  
     {
-        return p.width();
+        return W;
     }
     
     // height of current picture
     public int height()
     {
-        return p.height();
+        return H;
     }
     
     // energy of pixel at column x and row y
@@ -80,18 +86,18 @@ public class SeamCarver
         double[][] energyR = reverse(energyArray);
         
         //initial distTo and edgeTo
-        distTo = new double[p.height()][p.width()];
+        distTo = new double[H][W];
         for (double i[] : distTo)
             for (double j : i)
                 j = INFINITY;
-        edgeTo = new int[p.height()][p.width()];
+        edgeTo = new int[H][W];
         
         int[] rst = findSeam(energyR, energyR.length, energyR[0].length);
         
         //reverse rst
         for (int i = 0; i < rst.length; i++)
         {
-            rst[i] = p.height() - 1 - rst[i];
+            rst[i] = H - 1 - rst[i];
         }
         return rst;
         
@@ -100,19 +106,24 @@ public class SeamCarver
     // sequence of indices for vertical seam        
     public   int[] findVerticalSeam()
     {
-        distTo = new double[p.width()][p.height()];
+        distTo = new double[W][H];
         for (double i[] : distTo)
             for (double j : i)
                 j = INFINITY;
         
-        edgeTo = new int[p.width()][p.height()];
+        edgeTo = new int[W][H];
         
         return findSeam(this.energyArray, this.width(), this.height());
     }
-    /**
-     public    void removeHorizontalSeam(int[] seam)   // remove horizontal seam from current picture
-     public    void removeVerticalSeam(int[] seam)     // remove vertical seam from current picture
-     **/
+    // remove horizontal seam from current picture
+    public    void removeHorizontalSeam(int[] seam) 
+    {
+    }
+    // remove vertical seam from current picture
+    public    void removeVerticalSeam(int[] seam)     
+    {
+    }
+     
     
     private double[][] reverse(double[][] matrix)
     {
