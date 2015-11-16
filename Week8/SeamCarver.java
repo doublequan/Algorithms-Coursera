@@ -29,9 +29,16 @@ public class SeamCarver
             p = new Picture(picture);
         else
             throw new NullPointerException("input is null");
-        
+
         W = p.width();
         H = p.height();
+        //initial color[][]
+        color = new Color[W][H];
+        for (int c = 0; c < W; c++)
+            for (int r = 0; r < H; r++)
+        {
+            color[c][r] = p.get(c, r);
+        }
         
         energyArray = new double[W][H];
         calEnergyArray();
@@ -42,7 +49,13 @@ public class SeamCarver
     // current picture
     public Picture picture()   
     {
-        return p;
+        Picture newP = new Picture(W, H);
+        for (int c = 0; c < W; c++)
+            for (int r = 0; r < H; r++)
+        {
+            newP.set(c, r, color[c][r]);
+        }
+        return newP;
     }
     
     // width of current picture
@@ -69,13 +82,21 @@ public class SeamCarver
                 || y == 0 || y == (height() - 1))
             return 1000;
         
-        Color c = p.get(x, y);
-        double detaX2 = Math.pow((p.get(x-1, y).getRed() - p.get(x+1, y).getRed()), 2)
-            + Math.pow((p.get(x-1, y).getGreen() - p.get(x+1, y).getGreen()), 2)
-            + Math.pow((p.get(x-1, y).getBlue() - p.get(x+1, y).getBlue()), 2);
-        double detaY2 = Math.pow((p.get(x, y-1).getRed() - p.get(x, y+1).getRed()), 2)
-            + Math.pow((p.get(x, y-1).getGreen() - p.get(x, y+1).getGreen()), 2)
-            + Math.pow((p.get(x, y-1).getBlue() - p.get(x, y+1).getBlue()), 2);
+//        Color c = p.get(x, y);
+//        double detaX2 = Math.pow((p.get(x-1, y).getRed() - p.get(x+1, y).getRed()), 2)
+//            + Math.pow((p.get(x-1, y).getGreen() - p.get(x+1, y).getGreen()), 2)
+//            + Math.pow((p.get(x-1, y).getBlue() - p.get(x+1, y).getBlue()), 2);
+//        double detaY2 = Math.pow((p.get(x, y-1).getRed() - p.get(x, y+1).getRed()), 2)
+//            + Math.pow((p.get(x, y-1).getGreen() - p.get(x, y+1).getGreen()), 2)
+//            + Math.pow((p.get(x, y-1).getBlue() - p.get(x, y+1).getBlue()), 2);
+//        Color c = p.get(x, y);
+        double detaX2 = Math.pow((color[x-1][y].getRed() - color[x+1][y].getRed()), 2)
+            + Math.pow((color[x-1][y].getGreen() - color[x+1][y].getGreen()), 2)
+            + Math.pow((color[x-1][y].getBlue() - color[x+1][y].getBlue()), 2);
+        double detaY2 = Math.pow((color[x][y-1].getRed() - color[x][y+1].getRed()), 2)
+            + Math.pow((color[x][y-1].getGreen() - color[x][y+1].getGreen()), 2)
+            + Math.pow((color[x][y-1].getBlue() - color[x][y+1].getBlue()), 2);
+        
         return Math.sqrt(detaX2 + detaY2);
     }
     
@@ -122,8 +143,23 @@ public class SeamCarver
     // remove vertical seam from current picture
     public    void removeVerticalSeam(int[] seam)     
     {
+        isValid(seam);
+
+        for (int r = 0; r < H; r++)
+        {
+            for (int c = seam[r]; c < W - 1; c++)
+            {
+                color[c][r] = color[c + 1][r];
+            }
+        }
+        W--;
     }
      
+    private void isValid(int[] seam)
+    {
+        
+    }
+    
     
     private double[][] reverse(double[][] matrix)
     {
@@ -141,6 +177,7 @@ public class SeamCarver
     
     private int[] findSeam(double[][] energy, int W, int H)
     {
+        calEnergyArray();
         for (int r = 0; r < H; r++)
             for (int c = 0; c < W; c++)
         {
