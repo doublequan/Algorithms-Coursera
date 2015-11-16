@@ -137,13 +137,14 @@ public class SeamCarver
         return findSeam(this.energyArray, this.width(), this.height());
     }
     // remove horizontal seam from current picture
-    public    void removeHorizontalSeam(int[] seam) 
+    public void removeHorizontalSeam(int[] seam) 
     {
+        isValid(seam, false);
     }
     // remove vertical seam from current picture
-    public    void removeVerticalSeam(int[] seam)     
+    public void removeVerticalSeam(int[] seam)     
     {
-        isValid(seam);
+        isValid(seam, true);
 
         for (int r = 0; r < H; r++)
         {
@@ -155,9 +156,27 @@ public class SeamCarver
         W--;
     }
      
-    private void isValid(int[] seam)
+    //check if the input seam[] is valid, 
+    //boolean VH = true means seam[] is a VerticalSeam, otherwise seam[] is a HorizontalSeam
+    private void isValid(int[] seam, boolean VH)
     {
-        
+        if (seam == null)
+            throw new NullPointerException("input seam is null");
+        if (VH && seam.length != H)
+            throw new IllegalArgumentException("input seam is illegal");
+        if (!VH && seam.length != W)
+            throw new IllegalArgumentException("input seam is illegal");
+        for (int i = 0; i < seam.length; i++)
+        {
+            if (seam[i] < 0)
+                throw new IllegalArgumentException("input seam is illegal");
+            if (VH && seam[i] >= W)
+                throw new IllegalArgumentException("input seam is illegal");
+            if (!VH && seam[i] >= H)
+                throw new IllegalArgumentException("input seam is illegal");
+            if ((i != seam.length -1) && (seam[i] - seam[i + 1] > 1 || seam[i] - seam[i + 1] < -1))
+                throw new IllegalArgumentException("input seam is illegal");
+        }
     }
     
     
