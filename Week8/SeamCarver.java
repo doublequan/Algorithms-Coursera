@@ -6,7 +6,7 @@
  *  SeamCarver.java
  */
 import edu.princeton.cs.algs4.Picture;
-import edu.princeton.cs.algs4.StdOut;
+
 import java.awt.Color;
 
 public class SeamCarver 
@@ -17,7 +17,7 @@ public class SeamCarver
 //    private double[][] energyArray;
 //    private double[][] distTo;
 //    private short[][] edgeTo;
-    private Color[][] color;
+    private final int[][] color;
     
     private static final double INFINITY = Double.MAX_VALUE;
     
@@ -33,11 +33,11 @@ public class SeamCarver
         W = p.width();
         H = p.height();
         //initial color[][]
-        color = new Color[W][H];
+        color = new int[W][H];
         for (int c = 0; c < W; c++)
             for (int r = 0; r < H; r++)
         {
-            color[c][r] = p.get(c, r);
+            color[c][r] = p.get(c, r).getRGB();
         }
         
 //        energyArray = new double[W][H];
@@ -53,7 +53,7 @@ public class SeamCarver
         for (int c = 0; c < W; c++)
             for (int r = 0; r < H; r++)
         {
-            newP.set(c, r, color[c][r]);
+            newP.set(c, r, new Color(color[c][r]));
         }
         return newP;
     }
@@ -90,12 +90,21 @@ public class SeamCarver
 //            + Math.pow((p.get(x, y-1).getGreen() - p.get(x, y+1).getGreen()), 2)
 //            + Math.pow((p.get(x, y-1).getBlue() - p.get(x, y+1).getBlue()), 2);
 //        Color c = p.get(x, y);
-        double detaX2 = Math.pow((color[x-1][y].getRed() - color[x+1][y].getRed()), 2)
-            + Math.pow((color[x-1][y].getGreen() - color[x+1][y].getGreen()), 2)
-            + Math.pow((color[x-1][y].getBlue() - color[x+1][y].getBlue()), 2);
-        double detaY2 = Math.pow((color[x][y-1].getRed() - color[x][y+1].getRed()), 2)
-            + Math.pow((color[x][y-1].getGreen() - color[x][y+1].getGreen()), 2)
-            + Math.pow((color[x][y-1].getBlue() - color[x][y+1].getBlue()), 2);
+        
+
+//        double detaX2 = Math.pow((color[x-1][y].getRed() - color[x+1][y].getRed()), 2)
+//            + Math.pow((color[x-1][y].getGreen() - color[x+1][y].getGreen()), 2)
+//            + Math.pow((color[x-1][y].getBlue() - color[x+1][y].getBlue()), 2);
+//        double detaY2 = Math.pow((color[x][y-1].getRed() - color[x][y+1].getRed()), 2)
+//            + Math.pow((color[x][y-1].getGreen() - color[x][y+1].getGreen()), 2)
+//            + Math.pow((color[x][y-1].getBlue() - color[x][y+1].getBlue()), 2);
+
+        double detaX2 = Math.pow((((color[x-1][y] >> 16) & 0xFF) - ((color[x+1][y] >> 16) & 0xFF)), 2)
+            + Math.pow((((color[x-1][y] >> 8) & 0xFF) - ((color[x+1][y] >> 8) & 0xFF)), 2)
+            + Math.pow(((color[x-1][y] & 0xFF) - (color[x+1][y] & 0xFF)), 2);
+        double detaY2 = Math.pow((((color[x][y-1] >> 16) & 0xFF) - ((color[x][y+1] >> 16) & 0xFF)), 2)
+            + Math.pow((((color[x][y-1] >> 8) & 0xFF) - ((color[x][y+1] >> 8) & 0xFF)), 2)
+            + Math.pow(((color[x][y-1] & 0xFF) - (color[x][y+1] & 0xFF)), 2);
         
         return Math.sqrt(detaX2 + detaY2);
     }
@@ -324,23 +333,6 @@ public class SeamCarver
         }
     }
     
+
     
-    
-    public static void main(String[] args) {
-        
-//        StdOut.print(args[0]);
-//        Picture picture = new Picture(args[0]);
-//        StdOut.printf("image is %d pixels wide by %d pixels high.\n", picture.width(), picture.height());
-//        
-//        SeamCarver sc = new SeamCarver(picture);
-//        
-//        StdOut.printf("Printing energy calculated for each pixel.\n");        
-//        
-//        for (int j = 0; j < sc.height(); j++) 
-//        {
-//            for (int i = 0; i < sc.width(); i++)
-//                StdOut.printf("%9.0f ", sc.energy(i, j));
-//            StdOut.println();
-//        }
-    }
 }
