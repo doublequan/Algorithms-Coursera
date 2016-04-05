@@ -51,3 +51,8 @@ Author : Bill Quan
   * Week8  (100/100)	
 	
 			Week8/SeamCarver.java
+
+  * Week9  (100/100)	
+	
+			Week9/BaseballElimination.java
+	
