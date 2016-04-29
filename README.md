@@ -55,4 +55,8 @@ Author : Bill Quan
   * Week9  (100/100)	
 	
 			Week9/BaseballElimination.java
+
+  * Week10  (97.22/100)	
+	
+			Week10/BoggleSolver.java
 	
