@@ -59,4 +59,10 @@ Author : Bill Quan
   * Week10  (97.22/100)	
 	
 			Week10/BoggleSolver.java
+
+  * Week11  (100/100)	
+	
+			Week11/BurrowsWheeler.java
+			Week11/CircularSuffixArray.java
+			Week11/MoveToFront.java
 	
