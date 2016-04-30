@@ -1,8 +1,7 @@
-package week11;
+
 
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
-import java.util.Arrays;
 
 
 
@@ -42,10 +41,11 @@ public class BurrowsWheeler {
             next[count[input.charAt(i)]++] = i;
         
         StringBuilder output = new StringBuilder();
-        for (int i = next[first]; i != first; i = next[i]) {
-            output.append(input.charAt(i));
+        int j = next[first];
+        for (int i = 0; i < input.length(); i++) {
+            output.append(input.charAt(j));
+            j = next[j];
         }
-        output.append(input.charAt(first));
         
         BinaryStdOut.write(output.toString());
         BinaryStdOut.flush();

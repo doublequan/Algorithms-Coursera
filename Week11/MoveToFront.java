@@ -1,4 +1,4 @@
-package week11;
+
 
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
@@ -32,7 +32,7 @@ public class MoveToFront {
             char input = BinaryStdIn.readChar();
             BinaryStdOut.write(ascii[input]);
             char target = ascii[input];
-            for (int i = 1; i <= input; i++) {
+            for (int i = input; i > 0; i--) {
                 ascii[i] = ascii[i - 1];
             }
             ascii[0] = target;
